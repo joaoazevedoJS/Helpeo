@@ -1,0 +1,23 @@
+{
+  "name": "helpeo-api",
+  "version": "1.0.0",
+  "description": "Help peoples",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "knex:migrate": "knex --knexfile knexfile.js migrate:latest",
+    "knex:seed": "knex --knexfile knexfile.js seed:run"
+  },
+  "keywords": [],
+  "author": "joaoazevedojs",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "knex": "^0.21.1",
+    "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

@@ -8,8 +8,11 @@ exports.up = async function(knex) {
     table.decimal('latitude').notNullable()
     table.decimal('longitude').notNullable()
     table.string('city').notNullable()
-    table.integer('numbering').notNullable()
     table.string('uf', 2).notNullable()
+    table.integer('numbering').notNullable()
+    table.integer('user_id').notNullable()
+    .references('id')
+    .inTable('items');
   })
 }
 

@@ -19,7 +19,10 @@ routes.get('/points/:id', PointsController.show)
 
 // Rotas que precisam de autorização
 
-routes.use(Authorization)
+routes.use('/user', Authorization)
+
+routes.get('/user/authenticated', (req, res) => { res.send('') })
+routes.get('/user', UsersController.show)
 
 routes.post('/user/points', UsersController.create)
 routes.get('/user/points', UsersController.index)

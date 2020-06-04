@@ -1,0 +1,8 @@
+{
+  "short_name": "Helpeo",
+  "name": "Helpeo was created by joaoazevedojs",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#3F3D56",
+  "background_color": "#F2F2F2"
+}

@@ -6,7 +6,22 @@ module.exports = {
 
     const points = await knex('points').where('user_id', user_id)
 
-    res.send(points)
+    return res.json(points)
+  },
+
+  async show(req, res) {
+    const { user_id } = req.userId
+
+    const user = await knex('users')
+      .where('id', user_id).first()
+      .select('id')
+      .select('name')
+      .select('email')
+
+    if(!user) return res.status(404).json({ error: "User not Found" })
+
+    return res.json(user)
+
   },
 
   async create(req, res) {

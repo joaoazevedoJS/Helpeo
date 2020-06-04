@@ -1,0 +1,21 @@
+header#backto {
+  margin-top: 48px;
+
+  display        : flex;
+  justify-content: space-between;
+  align-items    : center;
+}
+
+header#backto a {
+  color          : var(--title-color);
+  font-weight    : bold;
+  text-decoration: none;
+
+  display    : flex;
+  align-items: center;
+}
+
+header#backto a svg {
+  margin-right: 16px;
+  color       : var(--primary-color);
+}

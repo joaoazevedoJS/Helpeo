@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
+import CreatePoint from './pages/CreatePoint'
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
         <Route path="/signin" exact component={SignIn} />
         <Route path="/signup" exact component={SignUp} />
         <PrivateRoute path="/user/profile" exact component={Profile} />
+        <PrivateRoute path="/user/create-point" exact component={CreatePoint}/>
         <Route path="*" component={() => <h1 id="notFound">Page not Found</h1>} />
       </Switch>
     </BrowserRouter>

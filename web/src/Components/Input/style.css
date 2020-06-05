@@ -1,0 +1,14 @@
+.field input {
+  flex: 1;
+  background: #F0F0F5;
+  border-radius: 8px;
+  border: 0;
+  padding: 16px 24px;
+  font-size: 16px;
+  color: #6C6C80;
+  width: 100%;
+}
+
+.field input::placeholder {
+  color: #A0A0B2;
+}

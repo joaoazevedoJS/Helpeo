@@ -51,6 +51,38 @@
   color: #FFF;
 }
 
+#page-profile .content header .buttons .btn.btn-full:hover,
+#page-profile .content header .buttons .btn.btn-full:active {
+  background: var(--title-color);
+}
+
+#page-profile .content main {
+  margin-top: 70px;
+}
+
+#page-profile .content main p.points-length {
+  margin-bottom: 40px;
+}
+
+#page-profile .content main div.points-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+#page-profile .content main div.points{
+
+
+  border-radius: 8px 8px 0 0;
+  width: 250px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+#page-profile .content main div.points img {
+  width: 100%;
+}
+
 @media (max-width: 900px) {
   #page-profile .content header h1 {
     display: none;

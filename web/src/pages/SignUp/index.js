@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { BsFillEyeFill } from 'react-icons/bs'
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 import BackTo from '../../Components/BackTo'
 import Password from '../../Components/Password'
+import Input from '../../Components/Input'
 
 import '../sign.css'
 
@@ -27,7 +28,7 @@ function SignUp() {
     if (password !== confirmPassword) return setError('Senhas não se correspondem!')
     if (!email.match(/\S+@\w+\.\w{2,6}(\.\w{2})?/g)) return setError('Use um e-mail válido!')
     if (!password.match(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%!^&*]).{6,20}$/gm))
-      return setError('Senha precisa de uma letra maiuscula, minuscula, digitos e caracteres especiais')
+      return setError('Senha precisa de uma letra maiuscula, minuscula, digitos, caracteres especiais e ter no minimo 6 digitos')
 
     const data = { name, email, password }
 
@@ -58,30 +59,24 @@ function SignUp() {
 
           {
             error !== '' ?
-              <p className="infoError">
+              <p className="infoError error-fixed">
                 {error} <span className="closeError" onClick={() => setError('')}>&times;</span>
               </p> : ''
           }
 
-          <div className="field">
-            <label htmlFor="name">Nome</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              onChange={e => setName(e.target.value)}
-            />
-          </div>
+          <Input
+            title="Nome"
+            type="text"
+            htmlfor="name"
+            onchange={e => setName(e.target.value)}
+          />
 
-          <div className="field">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              onChange={e => setEmail(e.target.value)}
-            />
-          </div>
+          <Input
+            title="E-mail"
+            type="email"
+            htmlfor="email"
+            onchange={e => setEmail(e.target.value)}
+          />
 
           <div className="field">
             <label htmlFor="password">Senha</label>
@@ -92,7 +87,11 @@ function SignUp() {
                 onChange={e => setPassword(e.target.value)}
               />
 
-              <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+              {
+                viewPassword === 'password' ?
+                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
+              }
             </div>
           </div>
 
@@ -105,12 +104,16 @@ function SignUp() {
                 onChange={e => setConfirmPassword(e.target.value)}
               />
 
-              <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+              {
+                viewPassword === 'password' ?
+                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
+              }
             </div>
           </div>
         </fieldset>
 
-        <button type="submit">Cadastrar</button>
+        <button type="submit" className="btn">Cadastrar</button>
       </form>
     </div>
   )

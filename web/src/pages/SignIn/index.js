@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { BsFillEyeFill } from 'react-icons/bs'
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 import BackTo from '../../Components/BackTo'
 import Password from '../../Components/Password'
+import Input from '../../Components/Input'
 
 import api from '../../services/api'
 import { login, getToken } from '../../services/token'
@@ -14,14 +15,14 @@ function SignIn() {
   const history = useHistory()
 
   useEffect(() => {
-    if(getToken()) {
+    if (getToken()) {
       history.push('/user/profile')
     }
   }, [history])
 
 
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [viewPassword, setViewPassword] = useState('password')
 
@@ -34,7 +35,7 @@ function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if(!email || !password) return setError("Preencha os campos")
+    if (!email || !password) return setError("Preencha os campos")
 
     const data = {
       email,
@@ -46,7 +47,7 @@ function SignIn() {
 
       login(res.data.token)
       history.push('/user/profile')
-    } catch(e) {
+    } catch (e) {
       setError('Aconteceu algum erro, verifique suas credenciais!')
     }
   }
@@ -63,20 +64,17 @@ function SignIn() {
 
           {
             error !== '' ?
-              <p className="infoError">
+              <p className="infoError  error-fixed">
                 {error} <span className="closeError" onClick={() => setError('')}>&times;</span>
               </p> : ''
           }
 
-          <div className="field">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              onChange={e => setEmail(e.target.value)}
-            />
-          </div>
+          <Input
+            title="E-mail"
+            type="email"
+            htmlfor="email"
+            onchange={e => setEmail(e.target.value)}
+          />
 
           <div className="field">
             <label htmlFor="password">Senha</label>
@@ -87,12 +85,16 @@ function SignIn() {
                 onChange={e => setPassword(e.target.value)}
               />
 
-              <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+              {
+                viewPassword === 'password' ?
+                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
+                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
+              }
             </div>
           </div>
         </fieldset>
 
-        <button type="submit">Logar</button>
+        <button type="submit" className="btn">Logar</button>
 
         <Link to="/signup">
           Criar uma nova conta

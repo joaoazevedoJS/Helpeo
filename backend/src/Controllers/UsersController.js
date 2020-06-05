@@ -18,7 +18,7 @@ module.exports = {
       .select('name')
       .select('email')
 
-    if(!user) return res.status(404).json({ error: "User not Found" })
+    if (!user) return res.status(404).json({ error: "User not Found" })
 
     return res.json(user)
 
@@ -28,13 +28,14 @@ module.exports = {
     const { user_id } = req.userId
 
     const {
-      name,
-      email,
+      title,
       whatsapp,
       latitude,
       longitude,
       city,
       uf,
+      address,
+      neighborhood,
       numbering,
       items
     } = req.body
@@ -43,15 +44,25 @@ module.exports = {
 
     const image = 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60'
 
+    const user = await trx('users')
+      .where('id', user_id).first()
+      .select('email')
+
+    if(!user) return res.status(404).json({ error: "User not Found" })
+
+    const { email } = user
+
     const point = {
       image,
-      name,
+      title,
       email,
       whatsapp,
       latitude,
       longitude,
       city,
       uf,
+      address,
+      neighborhood,
       numbering,
       user_id
     }
@@ -73,7 +84,7 @@ module.exports = {
 
     return res.json({
       id: point_id,
-      ...point
+      ...point,
     })
   },
 
@@ -82,13 +93,14 @@ module.exports = {
     const { id } = req.params
 
     const {
-      name,
-      email,
+      title,
       whatsapp,
       latitude,
       longitude,
       city,
       uf,
+      address,
+      neighborhood,
       numbering,
       items
     } = req.body
@@ -98,16 +110,26 @@ module.exports = {
       .where('user_id', user_id)
       .first()
 
+    const user = await knex('users')
+      .where('id', user_id).first()
+      .select('email')
+
+    if(!user) return res.status(404).json({ error: "User not Found" })
+
+    const { email } = user
+
     if (!point) return res.status(404).json({ error: "Point not Found!" })
 
     const updateTo = {
-      name,
       email,
+      title,
       whatsapp,
       latitude,
       longitude,
       city,
       uf,
+      address,
+      neighborhood,
       numbering,
     }
 

@@ -52,12 +52,22 @@ function Profile() {
           <p className="points-length"><strong>{points.length} pontos</strong> encontrados</p>
 
           <div className="points-container">
-          {points.map(point => (
-            <div key={point.id} className="points">
-              <img src={point.image} alt={point.name} />
-              <h3>{point.name}</h3>
-            </div>
-          ))}
+            {
+              points.map(point => (
+                <div key={point.id} className="points">
+                  <img src={point.image} alt={point.name} />
+
+                  <div className="point-content">
+                    <h2>{point.title}</h2>
+                    <p>Cidade: {point.city} / {point.uf}</p>
+                    <p>Rua: {point.address}</p>
+                    <p>Bairro: {point.neighborhood}</p>
+                    <p>Número: {point.numbering}</p>
+                    <p>Whatsapp: {point.whatsapp}</p>
+                  </div>
+                </div>
+              ))
+            }
           </div>
         </main>
       </div>

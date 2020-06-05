@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import {  useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Map, TileLayer, Marker } from 'react-leaflet'
+import { FiCheckCircle } from 'react-icons/fi'
 
 import axios from 'axios'
 import api from '../../services/api'
@@ -14,6 +15,9 @@ import './style.css'
 function CreatePoint() {
   const history = useHistory()
 
+  const [error, setError] = useState('')
+  const [sucess, setSucess] = useState('')
+
   const [items, setItems] = useState([])
   const [selectedItems, setSelectedItems] = useState([])
   const [ufs, setUfs] = useState([])
@@ -21,16 +25,16 @@ function CreatePoint() {
   const [initialPosition, setInitialPosition] = useState([0, 0])
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    title: '',
     whatsapp: '',
+    address: '',
+    neighborhood: '',
     numbering: 0,
   })
 
   const [selectedUf, setSelectedUf] = useState('0')
   const [selectedCity, setSelectedCity] = useState('0')
   const [selectedPosition, setSelectedPosition] = useState([0, 0])
-
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -93,13 +97,22 @@ function CreatePoint() {
   async function handleSubmit(event) {
     event.preventDefault()
 
+    const { title, whatsapp, address, neighborhood, numbering } = formData
     const uf = selectedUf
     const city = selectedCity
     const items = selectedItems
     const [latitude, longitude] = selectedPosition
 
+    if (!title || !whatsapp || !address || !neighborhood || !numbering || !uf || !city || !items || !latitude || !longitude) {
+      return setError("Informe todos os campos!")
+    }
+
     const data = {
-      ...formData,
+      title,
+      whatsapp,
+      address,
+      neighborhood,
+      numbering,
       uf,
       city,
       items,
@@ -110,16 +123,32 @@ function CreatePoint() {
     try {
       await api.post('/user/points', data)
 
+      setSucess('Cadastro concluído!')
 
-
-      history.push('/user/profile')
-    } catch(e) {
-      alert("Um erro aconteceu!")
+      setTimeout(() => {
+        history.push('/user/profile')
+      }, 3000)
+    } catch (e) {
+      setError("Um erro aconteceu! Tente novamente")
     }
   }
 
   return (
     <div id="page-create-point">
+      {error ? <div className="infoError error-fixed">
+          {error}
+          <p className="closeError" onClick={() => setError('')}>&times;</p>
+        </div>
+        : ''
+      }
+
+      {sucess ? <div className="sucess">
+          <FiCheckCircle className="sucess-icon" />
+          {sucess}
+        </div>
+        : ''
+      }
+
       <BackTo to='/user/profile' back="Profile" />
 
       <form action="/user/points" method="POST" onSubmit={handleSubmit}>
@@ -131,27 +160,18 @@ function CreatePoint() {
           </legend>
 
           <Input
-            title="Nome da entidade"
+            title="Título do Ponto"
             type="text"
-            htmlfor="name"
+            htmlfor="title"
             onchange={handleInputChange}
           />
 
-          <div className="field-group">
-            <Input
-              title="E-mail"
-              type="email"
-              htmlfor="email"
-              onchange={handleInputChange}
-            />
-
-            <Input
-              title="Whatsapp"
-              type="text"
-              htmlfor="whatsapp"
-              onchange={handleInputChange}
-            />
-          </div>
+          <Input
+            title="Whatsapp"
+            type="text"
+            htmlfor="whatsapp"
+            onchange={handleInputChange}
+          />
         </fieldset>
 
         <fieldset>
@@ -169,7 +189,7 @@ function CreatePoint() {
             <Marker position={selectedPosition} />
           </Map>
 
-          <div className="field-group-3">
+          <div className="field-group">
             <Select
               title="Estado"
               htmlfor="uf"
@@ -186,6 +206,22 @@ function CreatePoint() {
               value={selectedCity}
               onchange={e => setSelectedCity(e.target.value)}
               array={cities}
+            />
+          </div>
+
+          <div className="field-group-3">
+            <Input
+              title="Endereço"
+              type="text"
+              htmlfor="address"
+              onchange={handleInputChange}
+            />
+
+            <Input
+              title="Bairro"
+              type="text"
+              htmlfor="neighborhood"
+              onchange={handleInputChange}
             />
 
             <Input
@@ -217,7 +253,7 @@ function CreatePoint() {
           </ul>
         </fieldset>
 
-        <button type="submit">
+        <button type="submit" className="btn">
           Cadastrar ponto de doação
         </button>
       </form>

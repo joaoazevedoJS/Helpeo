@@ -1,4 +1,5 @@
 const knex = require("../database/connection")
+const Serialized = require('../utils/Serialized')
 
 module.exports = {
   async index(req, res) {
@@ -16,7 +17,9 @@ module.exports = {
       .distinct() // para retonar pontos diferentes
       .select('points.*')
 
-    return res.json(points)
+    const serializedPoint = Serialized(points, 'points')
+
+    return res.json(serializedPoint)
   },
 
   async show(req, res) {
@@ -28,13 +31,18 @@ module.exports = {
       return res.status(400).json({ error: 'Point not Found' })
     }
 
+    const serializedPoints =  {
+      ...point,
+      image_url: `http://localhost:3333/uploads/points/${point.image}`
+    }
+
     const items = await knex('items')
       .join('point_items', 'items.id', '=', 'point_items.item_id')
       .where('point_items.point_id', id)
       .select('items.title')
 
     return res.json({
-      point,
+      point: serializedPoints,
       items
     })
   },

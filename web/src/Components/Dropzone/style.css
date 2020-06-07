@@ -1,0 +1,58 @@
+
+.dropzone {
+  height: 300px;
+  background: rgb(156, 193, 235);
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 48px;
+  outline: 0;
+  overflow: hidden;
+  position: relative;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.dropzone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dropzone p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone p.notSelected {
+  width: calc(100% - 60px);
+  height: calc(100% - 60px);
+  border-radius: 10px;
+  border: 1px dashed #3F3D56;
+
+  color: #3F3D56;
+}
+
+.dropzone p.selected {
+  background: #24222280;
+  width: 100%;
+  height: 100%;
+  color: rgb(207, 207, 228);
+  position: absolute;
+  top: 0;
+}
+
+.dropzone p svg {
+  color: #3F3D56;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+.dropzone p.selected svg {
+  color: rgb(207, 207, 228);
+}

@@ -1,4 +1,5 @@
 const knex = require('../database/connection')
+const Serialized = require('../utils/Serialized')
 
 module.exports = {
   async index(req, res) {
@@ -6,7 +7,9 @@ module.exports = {
 
     const points = await knex('points').where('user_id', user_id)
 
-    return res.json(points)
+    const serializedPoint = Serialized(points, 'points')
+
+    return res.json(serializedPoint)
   },
 
   async show(req, res) {
@@ -42,18 +45,16 @@ module.exports = {
 
     const trx = await knex.transaction()
 
-    const image = 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60'
-
     const user = await trx('users')
       .where('id', user_id).first()
       .select('email')
 
-    if(!user) return res.status(404).json({ error: "User not Found" })
+    if (!user) return res.status(404).json({ error: "User not Found" })
 
     const { email } = user
 
     const point = {
-      image,
+      image: req.file.filename,
       title,
       email,
       whatsapp,
@@ -71,21 +72,22 @@ module.exports = {
 
     const point_id = insertedIds[0]
 
-    const pointItems = items.map(item_id => {
-      return {
-        item_id,
-        point_id,
-      }
-    })
+    const pointItems = items.split(',')
+      .map(item => Number(item.trim()))
+      .map(item_id => {
+        return {
+          item_id,
+          point_id,
+        }
+      })
 
     await trx('point_items').insert(pointItems)
 
     await trx.commit()
 
-    return res.json({
-      id: point_id,
-      ...point,
-    })
+    const data = { id: point_id, ...point }
+
+    return res.json(data)
   },
 
   async update(req, res) {
@@ -110,18 +112,10 @@ module.exports = {
       .where('user_id', user_id)
       .first()
 
-    const user = await knex('users')
-      .where('id', user_id).first()
-      .select('email')
-
-    if(!user) return res.status(404).json({ error: "User not Found" })
-
-    const { email } = user
-
     if (!point) return res.status(404).json({ error: "Point not Found!" })
 
     const updateTo = {
-      email,
+      image: req.file.filename,
       title,
       whatsapp,
       latitude,
@@ -140,12 +134,14 @@ module.exports = {
       .where('user_id', user_id)
       .update(updateTo)
 
-    const pointItems = items.map(item_id => {
-      return {
-        item_id,
-        point_id: id
-      }
-    })
+    const pointItems = items.split(',')
+      .map(item => Number(item.trim()))
+      .map(item_id => {
+        return {
+          item_id,
+          point_id: id,
+        }
+      })
 
     await trx('point_items')
       .where('point_id', id)

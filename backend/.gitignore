@@ -1,0 +1,5 @@
+# Database
+*.sqlite
+
+# Folders
+uploads/points

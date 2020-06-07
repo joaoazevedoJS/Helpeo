@@ -1,12 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
 
 import logo from '../../assets/logo.svg'
 
 import './style.css'
 
+import { getToken } from '../../services/token'
+
 function Home() {
+  const history = useHistory()
+
+  function handleClick(e) {
+    e.preventDefault()
+
+    getToken() ? history.push('/user/create-point')
+    : history.push('/signin')
+  }
+
   return (
     <div id="page-home">
       <div className="content">
@@ -18,7 +29,7 @@ function Home() {
           <h1>Ajude as pessoas <br/> na crise do coronavírus.</h1>
           <p>Ajudamos pessoas a encontrarem pontos de doação de forma eficiente.</p>
 
-          <Link to="/signin">
+          <Link to="/signin" onClick={handleClick}>
             <span>
               <FiLogIn />
             </span>

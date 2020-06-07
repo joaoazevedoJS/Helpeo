@@ -16,7 +16,7 @@ function SignIn() {
 
   useEffect(() => {
     if (getToken()) {
-      history.push('/user/profile')
+      history.push('/')
     }
   }, [history])
 

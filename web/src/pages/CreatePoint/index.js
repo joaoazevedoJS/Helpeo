@@ -9,6 +9,7 @@ import api from '../../services/api'
 import BackTo from '../../Components/BackTo'
 import Input from '../../Components/Input'
 import Select from '../../Components/Select'
+import Dropzone from '../../Components/Dropzone'
 
 import './style.css'
 
@@ -23,6 +24,7 @@ function CreatePoint() {
   const [ufs, setUfs] = useState([])
   const [cities, setCities] = useState([])
   const [initialPosition, setInitialPosition] = useState([0, 0])
+  const [selectedFile, setSelectedFile] = useState()
 
   const [formData, setFormData] = useState({
     title: '',
@@ -103,21 +105,25 @@ function CreatePoint() {
     const items = selectedItems
     const [latitude, longitude] = selectedPosition
 
-    if (!title || !whatsapp || !address || !neighborhood || !numbering || !uf || !city || !items || !latitude || !longitude) {
+    if (!selectedFile || !title || !whatsapp || !address || !neighborhood || !numbering || !uf || !city || !items || !latitude || !longitude) {
       return setError("Informe todos os campos!")
     }
 
-    const data = {
-      title,
-      whatsapp,
-      address,
-      neighborhood,
-      numbering,
-      uf,
-      city,
-      items,
-      latitude,
-      longitude
+    const data = new FormData()
+
+    data.append('title', title);
+    data.append('whatsapp', whatsapp);
+    data.append('address', address);
+    data.append('neighborhood', neighborhood);
+    data.append('numbering', String(numbering));
+    data.append('uf', uf);
+    data.append('city', city);
+    data.append('items', items);
+    data.append('latitude', String(latitude));
+    data.append('longitude', String(longitude));
+
+    if(selectedFile) {
+      data.append('image', selectedFile)
     }
 
     try {
@@ -136,16 +142,16 @@ function CreatePoint() {
   return (
     <div id="page-create-point">
       {error ? <div className="infoError error-fixed">
-          {error}
-          <p className="closeError" onClick={() => setError('')}>&times;</p>
-        </div>
+        {error}
+        <p className="closeError" onClick={() => setError('')}>&times;</p>
+      </div>
         : ''
       }
 
       {sucess ? <div className="sucess">
-          <FiCheckCircle className="sucess-icon" />
-          {sucess}
-        </div>
+        <FiCheckCircle className="sucess-icon" />
+        {sucess}
+      </div>
         : ''
       }
 
@@ -153,6 +159,8 @@ function CreatePoint() {
 
       <form action="/user/points" method="POST" onSubmit={handleSubmit}>
         <h1>Cadastro do <br /> Ponto de doação</h1>
+
+        <Dropzone onFile={setSelectedFile} />
 
         <fieldset>
           <legend>

@@ -55,7 +55,7 @@ function Profile() {
             {
               points.map(point => (
                 <div key={point.id} className="points">
-                  <img src={point.image} alt={point.name} />
+                  <img src={point.image_url} alt={point.name} />
 
                   <div className="point-content">
                     <h2>{point.title}</h2>

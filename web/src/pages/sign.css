@@ -56,16 +56,4 @@
   color: #504c80;
 }
 
-.page-sign form div.view-password {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.page-sign form .viewPassword {
-  position: absolute;
-  right: 10px;
-  height: 25px;
-  cursor: pointer;
-}
 

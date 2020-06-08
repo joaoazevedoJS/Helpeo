@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 import BackTo from '../../Components/BackTo'
 import Password from '../../Components/Password'
 import Input from '../../Components/Input'
+import AlertError from '../../Components/AlertError'
 
 import '../sign.css'
 
@@ -23,6 +23,8 @@ function SignUp() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+
+    console.log('password')
 
     if (!email || !name || !password || !confirmPassword) return setError('Preencha todos os dados!')
     if (password !== confirmPassword) return setError('Senhas não se correspondem!')
@@ -57,12 +59,7 @@ function SignUp() {
             <h1>Cadastro</h1>
           </legend>
 
-          {
-            error !== '' ?
-              <p className="infoError error-fixed">
-                {error} <span className="closeError" onClick={() => setError('')}>&times;</span>
-              </p> : ''
-          }
+          <AlertError error={error} onclick={() => setError('')} />
 
           <Input
             title="Nome"
@@ -78,39 +75,21 @@ function SignUp() {
             onchange={e => setEmail(e.target.value)}
           />
 
-          <div className="field">
-            <label htmlFor="password">Senha</label>
-            <div className="view-password">
-              <Password
-                type={viewPassword}
-                place="Exemplo: #Test1"
-                onChange={e => setPassword(e.target.value)}
-              />
+          <Password
+            title="Senha"
+            type={viewPassword}
+            place="Exemplo: #Test1"
+            onChange={e => setPassword(e.target.value)}
+            onclick={handleViewPassword}
+          />
 
-              {
-                viewPassword === 'password' ?
-                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
-                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
-              }
-            </div>
-          </div>
-
-          <div className="field">
-            <label htmlFor="password">Confirmar senha</label>
-            <div className="view-password">
-              <Password
-                type={viewPassword}
-                place="Exemplo: #Test1"
-                onChange={e => setConfirmPassword(e.target.value)}
-              />
-
-              {
-                viewPassword === 'password' ?
-                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
-                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
-              }
-            </div>
-          </div>
+          <Password
+            title="Confirmar senha"
+            type={viewPassword}
+            place="Exemplo: #Test1"
+            onChange={e => setConfirmPassword(e.target.value)}
+            onclick={handleViewPassword}
+          />
         </fieldset>
 
         <button type="submit" className="btn">Cadastrar</button>

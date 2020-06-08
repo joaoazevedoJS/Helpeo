@@ -2,4 +2,5 @@
 *.sqlite
 
 # Folders
-uploads/points
+uploads/points/*
+!.gitKeep

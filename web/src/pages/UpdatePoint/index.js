@@ -32,7 +32,7 @@ function CreatePoint() {
     whatsapp: '',
     address: '',
     neighborhood: '',
-    numbering: '',
+    numbering: 0,
   })
 
   const [selectedUf, setSelectedUf] = useState('0')
@@ -40,11 +40,25 @@ function CreatePoint() {
   const [selectedPosition, setSelectedPosition] = useState([0, 0])
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords
+    const point = localStorage.getItem('pointID')
 
-      setInitialPosition([latitude, longitude])
-    })
+    api.get(`/points/${point}`)
+      .then(res => {
+        const { point } = res.data
+
+        setFormData({
+          title: point.title,
+          whatsapp: point.whatsapp,
+          address: point.address,
+          neighborhood: point.neighborhood,
+          numbering: point.numbering,
+        })
+
+        setSelectedUf(point.uf)
+        setSelectedCity(point.city)
+        setSelectedPosition([point.latitude, point.longitude])
+        setInitialPosition([point.latitude, point.longitude])
+      })
   }, [])
 
   useEffect(() => {
@@ -98,6 +112,7 @@ function CreatePoint() {
   }
 
   async function handleSubmit(event) {
+    const point = localStorage.getItem('pointID')
     event.preventDefault()
 
     const { title, whatsapp, address, neighborhood, numbering } = formData
@@ -123,14 +138,14 @@ function CreatePoint() {
     data.append('latitude', String(latitude));
     data.append('longitude', String(longitude));
 
-    if(selectedFile) {
+    if (selectedFile) {
       data.append('image', selectedFile)
     }
 
     try {
-      await api.post('/user/points', data)
+      await api.put(`/user/point/${point}`, data)
 
-      setSucess('Cadastro concluído!')
+      setSucess('O ponto foi atualizado com sucesso!')
 
       setTimeout(() => {
         history.push('/user/profile')
@@ -154,7 +169,7 @@ function CreatePoint() {
       <BackTo to='/user/profile' back="Profile" />
 
       <form action="/user/points" method="POST" onSubmit={handleSubmit}>
-        <h1>Cadastro do <br /> Ponto de doação</h1>
+        <h1>Atualizar o <br /> Ponto de doação</h1>
 
         <Dropzone onFile={setSelectedFile} />
 
@@ -166,16 +181,16 @@ function CreatePoint() {
           <Input
             title="Título do Ponto"
             type="text"
-            htmlfor="title"
             value={formData.title}
+            htmlfor="title"
             onchange={handleInputChange}
           />
 
           <Input
             title="Whatsapp"
             type="text"
-            htmlfor="whatsapp"
             value={formData.whatsapp}
+            htmlfor="whatsapp"
             onchange={handleInputChange}
           />
         </fieldset>

@@ -23,37 +23,9 @@
   font-weight: bold;
 }
 
-#page-profile .content header .buttons .btn {
+.btn {
   height: 50px;
   padding: 0 20px;
-  background: var(--primary-color);
-  border-radius: 8px;
-  color        : #FFF;
-  font-weight  : 400;
-  font-size    : 16px;
-  border       : 0;
-  cursor       : pointer;
-  user-select  : none;
-  outline      : none;
-  transition   : background-color 0.4s;
-}
-
-#page-profile .content header .buttons .btn.btn-ghost {
-  margin-right: 10px;
-  background   : transparent;
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-}
-
-#page-profile .content header .buttons .btn.btn-ghost:hover,
-#page-profile .content header .buttons .btn.btn-ghost:active {
-  background: var(--primary-color);
-  color: #FFF;
-}
-
-#page-profile .content header .buttons .btn.btn-full:hover,
-#page-profile .content header .buttons .btn.btn-full:active {
-  background: var(--title-color);
 }
 
 #page-profile .content main {
@@ -80,10 +52,41 @@
   width: 100%;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  position: relative;
 }
 
-#page-profile .content main div.points img {
+#page-profile .content main div.points .point-edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
+#page-profile .content main div.points .point-edit svg {
+  color: #FFF;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: color 0.2s;
+}
+
+#page-profile .content main div.points .point-edit svg:hover,
+#page-profile .content main div.points .point-edit svg:active {
+  color: rgb(231, 71, 71);
+}
+
+#page-profile .content main div.points .point-img {
+  height: 150px;
+  overflow: hidden;
+  background-color: rgb(24, 23, 23);
+  user-select: none;
+  outline: none;
+}
+
+#page-profile .content main div.points .point-img img {
   width: 100%;
+  height: auto;
+  opacity: 0.6;
 }
 
 #page-profile .content main div.points .point-content {
@@ -93,6 +96,11 @@
 #page-profile .content main div.points .point-content h2 {
   font-size: 18px;
   margin-bottom: 16px;
+
+  /* Color 3 pontos no final de um titulo for muito grande */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap
 }
 
 #page-profile .content main div.points .point-content p {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 import BackTo from '../../Components/BackTo'
 import Password from '../../Components/Password'
 import Input from '../../Components/Input'
+import AlertError from '../../Components/AlertError'
 
 import api from '../../services/api'
 import { login, getToken } from '../../services/token'
@@ -62,12 +62,7 @@ function SignIn() {
             <h1>Login</h1>
           </legend>
 
-          {
-            error !== '' ?
-              <p className="infoError  error-fixed">
-                {error} <span className="closeError" onClick={() => setError('')}>&times;</span>
-              </p> : ''
-          }
+          <AlertError error={error} onclick={() => setError('')} />
 
           <Input
             title="E-mail"
@@ -76,22 +71,12 @@ function SignIn() {
             onchange={e => setEmail(e.target.value)}
           />
 
-          <div className="field">
-            <label htmlFor="password">Senha</label>
-            <div className="view-password">
-              <Password
-                type={viewPassword}
-                place="Exemplo: #Test1"
-                onChange={e => setPassword(e.target.value)}
-              />
-
-              {
-                viewPassword === 'password' ?
-                  <BsFillEyeFill className="viewPassword" onClick={handleViewPassword} />
-                  : <BsFillEyeSlashFill className="viewPassword" onClick={handleViewPassword} />
-              }
-            </div>
-          </div>
+          <Password
+            type={viewPassword}
+            place="Exemplo: #Test1"
+            onChange={e => setPassword(e.target.value)}
+            onclick={handleViewPassword}
+          />
         </fieldset>
 
         <button type="submit" className="btn">Logar</button>

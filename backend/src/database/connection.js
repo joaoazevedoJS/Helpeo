@@ -1,12 +1,8 @@
 const knex = require("knex")
-const path = require("path")
+const { test, development} = require('../../knexfile')
 
-const connection = knex({
-  client: "sqlite3",
-  connection: {
-    filename: path.resolve(__dirname, 'database.sqlite')
-  },
-  useNullAsDefault: true
-})
+const config = process.env.NODE_ENV === 'test' ? test : development
+
+const connection = knex(config)
 
 module.exports = connection

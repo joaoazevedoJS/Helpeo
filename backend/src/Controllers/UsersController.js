@@ -53,8 +53,10 @@ module.exports = {
 
     const { email } = user
 
+    const image = process.env.NODE_ENV === 'test' ? 'shop.jpg' : req.file.filename
+
     const point = {
-      image: req.file.filename,
+      image,
       title,
       email,
       whatsapp,
@@ -114,8 +116,10 @@ module.exports = {
 
     if (!point) return res.status(404).json({ error: "Point not Found!" })
 
+    const image = process.env.NODE_ENV === 'test' ? 'shop.jpg' : req.file.filename
+
     const updateTo = {
-      image: req.file.filename,
+      image,
       title,
       whatsapp,
       latitude,

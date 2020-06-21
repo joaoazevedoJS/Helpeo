@@ -68,6 +68,7 @@ function SignIn() {
             title="E-mail"
             type="email"
             htmlfor="email"
+            value={email}
             onchange={e => setEmail(e.target.value)}
           />
 

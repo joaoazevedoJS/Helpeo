@@ -65,6 +65,7 @@ function SignUp() {
             title="Nome"
             type="text"
             htmlfor="name"
+            value={name}
             onchange={e => setName(e.target.value)}
           />
 
@@ -72,6 +73,7 @@ function SignUp() {
             title="E-mail"
             type="email"
             htmlfor="email"
+            value={email}
             onchange={e => setEmail(e.target.value)}
           />
 

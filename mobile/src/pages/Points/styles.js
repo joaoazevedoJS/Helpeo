@@ -35,13 +35,13 @@ export default StyleSheet.create({
 
   mapMarker: {
     width: 90,
-    height: 80,
+    height: 90,
   },
 
   mapMarkerContainer: {
     width: 90,
-    height: 70,
-    backgroundColor: '#34CB79',
+    height: 90,
+    backgroundColor: '#6B62FA',
     flexDirection: 'column',
     borderRadius: 8,
     overflow: 'hidden',
@@ -59,7 +59,8 @@ export default StyleSheet.create({
     fontFamily: 'Roboto_400Regular',
     color: '#FFF',
     fontSize: 13,
-    lineHeight: 23,
+    lineHeight: 18,
+    paddingHorizontal: 5,
   },
 
   itemsContainer: {
@@ -86,7 +87,7 @@ export default StyleSheet.create({
   },
 
   selectedItem: {
-    borderColor: '#34CB79',
+    borderColor: '#6B62FA',
     borderWidth: 2,
   },
 

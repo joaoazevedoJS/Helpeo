@@ -8,7 +8,7 @@ module.exports = {
       return {
         id: item.id,
         title: item.title,
-        image_url: `http://localhost:3333/uploads/icons/${item.image}`
+        image_url: `http://${process.env.HOST}:3333/uploads/icons/${item.image}`
       }
     })
 

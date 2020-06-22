@@ -1,9 +1,8 @@
 import axios from 'axios'
 import { getToken } from './token'
 
-
 const api = axios.create({
-  baseURL: "http://localhost:3333"
+  baseURL: `http://192.168.0.25:3333`
 })
 
 // antes de todas as requisições ele vai setar uma config

@@ -18,6 +18,19 @@ npm install
 npm i
 ```
 
+## Env
+
+No **backend** vai ter um arquivo chamado
+`.host.env`
+
+Adicione seu ip para que você possa usar o mobile
+
+No **frontend** e só ir na pasta services no arquivo api e trocar para seu ip
+
+> Caso não sabia como pegar seu ip, abra o cmd e digite `ipconfig` e pegue o que estiver em ipv4
+
+## Backend
+
 ## Configurando o banco de dados SQLite
 
 ``` JS

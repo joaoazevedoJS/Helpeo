@@ -33,7 +33,7 @@ module.exports = {
 
     const serializedPoints =  {
       ...point,
-      image_url: `http://localhost:3333/uploads/points/${point.image}`
+      image_url: `http://${process.env.HOST}:3333/uploads/points/${point.image}`
     }
 
     const items = await knex('items')

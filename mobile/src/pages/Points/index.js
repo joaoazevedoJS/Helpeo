@@ -81,8 +81,8 @@ export default function Points() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={handleNavigationBack}>
-          <Icon name="arrow-left" color="#6B62FA" size={20} />
+        <TouchableOpacity onPress={handleNavigationBack} style={{ marginTop: 16 }}>
+          <Icon name="arrow-left" color="#6B62FA" size={24} />
         </TouchableOpacity>
 
         <Text style={styles.title}>Bem vindo.</Text>
